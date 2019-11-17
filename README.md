@@ -7,7 +7,7 @@ When you think about embedded-device security, pretty much most if not all requi
 	2. You need make sure the code on your device is what you expect it to be -**firmware validation aka secure boot**
 	3. You need to know that people cant make (illegitimate) copies of your devices -**anti-cloning or counterfeit protection**
 	4. You don't want someone to stealing your IP (when in the field or the supply-chain) -**IP protection**
-	5.  You want a secure way to distribute updates or communicate with a cloud backend -**secure FOTA or connectivity**
+	5. You want a secure way to distribute updates or communicate with a cloud backend -**secure FOTA or connectivity**
 
 # The problem:
   - All of the above ultimately depend on the secrecy/safety of a **cryptographic root of trust** (i.e. a private key + crypto constructs/algorithms) . So, all you have to do is protect your keys and use standards based crypto - how hard can that be? -right
