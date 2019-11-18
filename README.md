@@ -89,13 +89,16 @@ Simply clone the repository and follow these steps
   - Make sure your board is connected to a local wifi-hotspot before you start.
   - Run the gcpIoTCore_auth_example.py script to generate a signed token and authenticate with google IoT Core and publish some telemetry data. If all goes well, you should see a blue led flashing on your esp32.
   - Assuming everything's tied up right, you should now be able to see test **telemetry data** showing up in your GCP account. 
+  
+  ![Raw MQTT Telemetry data being published to GCP upon successful authentication.](https://github.com/nihalpasham/micropython_w_atecc608a_googleIotCoreAuth/blob/master/telemetry_raw_mqtt_messages.png)
+  
   - You could also look at the logs for **mqtt messages**. Should see something like this.
   
   ![MQTT logs from GCP](https://github.com/nihalpasham/micropython_w_atecc608a_googleIotCoreAuth/blob/master/google_cloud_mqtt_logs_LI.jpg)
 
 # Notes:
 
-  - Having made dedicated HW based crypto-processing sound like the next best thing to sliced bread, let me just say that there is no such thing. You still need defense in depth and the expertise to get all of this right! i.e. it's a good starting point  
+  - Having made dedicated HW based crypto-processing sound like the next best thing to sliced bread, let me just say that there is no such thing. You still need defense in depth and the expertise to get all of this right but nonetheless this is a pretty good starting point. 
   - For example - most crypto-chips dont offer much in the way of 'runtime code isolation' security (not that you need it in most low-powered connected IoT projects) but if that's something on your list of security needs, you should probably look at other options like Cortex-M trustzone etc.  
 
-### Footnote: Sales pitch part, skippable if you want to save 30 secs of your life -if you're looking to solve any of the above use-cases or grappling with similar security requirements (like TPMs, Cortez-M Trustzone), please feel free to get in touch or drop a tweet at @npashi. 
+### Footnote: Sales pitch part, skippable if you want to save 30 secs of your life but if you're looking to solve any of the above use-cases or grappling with similar security requirements (like TPMs, Cortez-M Trustzone), please feel free to get in touch or drop a tweet at @npashi. 
