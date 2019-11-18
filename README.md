@@ -52,11 +52,34 @@ That brings us to the topic of this repo. The atecc608a crypto-processor. This r
  
 # Usage:
 
+![Wiring up an ESP32 with a ATECC608a crypto-processor](https://github.com/nihalpasham/micropython_w_atecc608a_googleIotCoreAuth/blob/master/wiredup_atecc608a.jpg)
+
 Simply clone the repository and follow these steps
-  - Wire up the sensors and board as shown in the picture. 
+  - Wire up the sensors and board as shown in the picture. I'm have a fancy expansion board (from microchip) for my atecc608a but you can get a basic breakout board (adafruit has one) with a single i2c interface.
   - Flash the firmware onto the board and copy all scripts contained in the repo onto micropython's filesystem.
   - Use jupyter notebooks to connect to the esp32's serial port (included jupyter notebook for guidance)
   - Test to see if your board can see the atecc608a on its i2c bus. If yes, move on to the next steps
+  ```python
+  
+      import machine
+      
+      i2c = machine.I2C(scl=machine.Pin(22), sda=machine.Pin(21), freq=133000)
+      print('Scan i2c bus...')
+
+      addresses = i2c.scan()
+
+      if len(addresses) == 0:
+        print("No i2c device !")
+      else:
+        print('i2c devices found:',len(addresses))
+        for device in addresses:  
+          print("Decimal address: ",device," | Hexa address: ",hex(device))
+       
+      Scan i2c bus...
+      i2c devices found: 1
+      Decimal address:  96  | Hexa address:  0x60
+      
+  ```
   - Make sure your board is connected to a local wifi-hotspot before you start.
   - Run the gcpIoTCore_auth_example.py script to generate a signed token and authenticate with google IoT Core and publish some telemetry data. If all goes well, you should see a blue led flashing on your esp32.
   - Assuming everything's tied up right, you should now be able to see test **telemetry data** showing up in your GCP account. 
