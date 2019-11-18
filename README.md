@@ -1,5 +1,5 @@
 # Commoditizing security for 'all connected-devices':
-##***especially low-cost connected-anything kind***
+##***especially the low-cost connected-anything kind***
 
 **Context** - Evaluate how you could **vastly** improve security in any IoT project with 0.50$. 
 
@@ -88,6 +88,9 @@ Simply clone the repository and follow these steps
   ```
   - Make sure your board is connected to a local wifi-hotspot before you start.
   - Run the gcpIoTCore_auth_example.py script to generate a signed token and authenticate with google IoT Core and publish some telemetry data. If all goes well, you should see a blue led flashing on your esp32.
+  
+   ![Flashing blue led on the esp32.](https://youtu.be/VYf0L76V8uE) 
+  
   - Assuming everything's tied up right, you should now be able to see test **telemetry data** showing up in your GCP account. 
   
   ![Raw MQTT Telemetry data being published to GCP upon successful authentication.](https://github.com/nihalpasham/micropython_w_atecc608a_googleIotCoreAuth/blob/master/telemetry_raw_mqtt_messages.png)
