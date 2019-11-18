@@ -1,47 +1,62 @@
-# Commoditizing security - for 'connected-devices'  
+# Commoditizing security - for 'all connected-devices' not just the expensive ones.
 
 **Context** - Evaluate how you could **vastly** improve security in any IoT project with 0.50$. 
 
 When you think about embedded-device security, pretty much most if not all requirements (i.e. use-cases) depend on some kind of crypto. Ex:
   1. You need a **unique** device identity to securely - **'authenticate your device'**
-  2. You need make sure the code on your device is what you expect it to be - **'firmware validation aka secure boot'**
-  3. You need to know that people cant make (illegitimate) copies of your devices - **'anti-cloning or counterfeit protection'**
-  4. You don't want someone to stealing your IP (when in the field or the supply-chain) - **'IP protection'**
+  2. You need to make sure the code on your device is what you expect it to be - **'firmware validation aka secure boot'**
+  3. You need to know that people can't make (illegitimate) copies of your devices - **'anti-cloning or counterfeit protection'**
+  4. You don't want someone stealing your IP (when in the field or the supply-chain) - **'IP protection'**
   5. You want a secure way to distribute updates or communicate with a cloud backend - **'secure FOTA or connectivity'**
 
 # The problem:
-  - All of the above ultimately depend on the secrecy/safety of a **cryptographic root of trust** (i.e. a private key + crypto constructs/algorithms). So, all you have to do is protect your keys and use standards based crypto - how hard can that be? -right
+  - All of the above ultimately depends on the secrecy/safety of a **cryptographic root of trust** (i.e. a private key + crypto constructs/algorithms). Ok great, so all you have to do is protect your keys and use standards-based crypto - how hard can that be? -right
 
-Turns out this is a non-trivial affair, requiring a solution that addresses 5 categories of issues
+Turns out this is a non-trivial affair, requiring a solution that addresses several categories of issues such as
   - **Expertise**: Crypto based **device-security** is hard 
-  - **Price**: I've a **5$ connected thing**. An HSM is **more work** than I'm willing to put in for the ROI
+  - **Price**: I've a **5$ connected thing** and an HSM to secure it is **more work and money** than I'm willing to put in for the ROI
   - **Agility**: It adds significantly to my dev timeframe and I need to be the first to market. 
-  - **Assumptions**: The concept of **good enough security** - leading to things like key/certs being stored in SW (in the clear), a compromised chain of trust or an unsecured debug port or custom SW crypto implementations susceptible to side-channel attacks.
-  - **Fragmented ecosystem**: With a myriad number of silicon + firmware vendors, micro-architectures, open source components and cloud platforms, and a heterogenous supply-chain comprising OEMs, contract manufacturers etc, this problem can easily be compounded, becoming increasingly difficult to manage security for a mix of devices.
+  - **Good enough security**: The concept of **good enough security** - leading to things like key/certs being stored in SW (in the clear), a compromised chain of trust, an unsecured debug port or a custom SW crypto implementations susceptible to side-channel attacks.
+  - **Complex ecosystem**: With a myriad number of **silicon + firmware vendors, micro-architectures, security technologies, open source offerings, cloud platforms, and a heterogenous supply-chain** comprising OEMs, contract manufacturers etc, this problem can easily get compounded, making it increasingly difficult to **secure** a mix of devices.
 
-# A usable answer:
-Barring 'expertise' all other classes of issues are attributable to a lack of ignorance or an understanding of the current security landscape and the available options. To elaborate  
+# The way forward: a usable answer
+'Expertise' is what you need to clearly understand the nitty gritties of addressing the above issue-categories but in general, all other classes of issues are attributable to a much tinier knowledge-gap i.e. an understanding of available security options - cryptoprocessors - you can call them TPMs, secure elements, emv chips or custom ones like apple's T2 chip that you cant buy etc. To elaborate  
 
- - **Price:** Secure crypto processors/chips/accelerators are cheap (cost a few cents), have been around for a while and most come with certifiable protection for key-storage and crypto-processing capabilities.
- - **Agility:** Crypto-chips are available in a variety of configurations, from isolated external modules to fully integrated boards with secure co-processors. In short it doesn’t matter if it’s a greenfield or brownfield project, you can still have security
- - **Assumptions:** Although this is linked to the issue of expertise, it still a lack of education problem 
- - **Fragmentation:** Crypto-chips are independent modules with no HW or architectural dependencies. They are pretty much MCU or MPU agnostic. All you need is a serial interface (largely) to get going. Supply-chain risks can be plugged as you can now handover pre-provisioned crypto-elements to anyone without the worrying about compromise/leakage. 
+ - **Price:** Secure crypto processors/chips/accelerators are cheap (cost just a few cents) and most come with certifiable protection for key-storage and crypto-processing capabilities. 
+ - **Agility:** Crypto-chips are available in a variety of configurations, from add-ons or isolated external modules to fully integrated secure crytpo co-processors boards. So, it doesn’t matter if it’s a greenfield or brownfield project, you can still have the best of security. 
+ - **Good enough security:** No need to make anymore assumptions here -just use the right features for the requirement. Any crypto processor worth the its name addresses most (or all) of basic security use-cases. **Although you still need an expert to do this not throw overloaded app developers at it.**
+ - **Complexity:** Most commercially available crypto-chips are independent modules with no micro-architectural or hardware specific dependencies. They are pretty much MCU or MPU agnostic. All you need is a serial interface (largely) to get started. Supply-chain risks can be plugged as you can now handover pre-provisioned crypto-elements to anyone without the worrying about compromise/leakage.
+ 
+**In short with the right expertise, crypto-processors can be a cheap, flexible, highly secure and proven piece of technology - i.e. a commodity that accelerate dev timescales and remove complexity no matter the device.**
 
-That brings us to the case in point. The atecc608a 
+That brings us to the topic of this repo. The atecc608a crypto-processor. This repo will help demo a typical IoT security use-case like secure device authentication to show that price, agility, complexity are not the problems: 
+  - Esp32 uses espressif's xtensa micro-architecture (not ARM or intel)
+  - micropython firmware is pure python for microcontrollers
+  - atecc608a - i2c enabled crypto-processor with a common criteria - JIL high rating 
+  - Google cloud - authenticating with google's IoT Core using jwt standard (can easily be extended to TLS mutual auth or other forms of custom auth options supported by iot cloud providers like aws, azure etc.)
 
 # The set-up:
   - An ESP32 board running micropython
   - A Jupyter Notebook for flashing and debugging your code via the repl
   - The ATECC608A Crypto Authentication device (from microchip) to generate and store a (ECC) private key (which **never leaves** the cryptochip)
   - A micropython module (i.e. driver) for the ATECC608A Crypto Authentication device - https://github.com/dmazzella/ucryptoauthlib
-  - **You'll also need the EspressIf binary toolchain and SDK to build micropython firmware (esp32 port) i.e. some micropython modules (atecc608a driver, mqtt) will need to be frozen into the firmware else you'll run into memory constraints.** 
+  - **You'll also need the EspressIf binary toolchain and SDK to build micropython firmware (esp32 port) i.e. some micropython modules (atecc608a driver, mqtt) will need to be frozen into the firmware else you'll run into out of memory issues.** 
   
-# The Steps:
-  1. Generate and store a (ECC) private key onboard the cryptochip 
+# Demo: Secure device authentication with Google IoT Core (Esp32 + micropython + atecc608a)
+  1. Step 1 starts with personlization of your crypto element i.e. the atecc608a needs to be configured for your needs. (Note -There's a whole bunch of things the chip can do for you. This is where the 'expertise' comes in but that's beyond the scope of this little demo). 
+  2. For our demo - all you need to do is generate and store an (ECC) private key onboard the cryptochip. Although, the datasheet for atecc608a isn't available (its under NDA). You could still use its predecessor's datasheet - the atecc508a to do this.
+  3. Once you've configured your cryptochip. It should ideally be permanently locked down i.e. no one can not even you can access the private-keys or sensitive data directly. You do this wrong and you end up 0.50$ short.
+  4. Set up Google IoT Core on your GCP account with a registry, add a device to it. Refer to GCP getting started guide for this. 
+  4. Retrieve the associated public-key from the chip and upload a PEM formatted version of it to your Google cloud account. Google has a nice little guide for this - https://cloud.google.com/iot/docs/how-tos/devices
+  5. From hereon - just follows usage steps. 
  
-
 # Usage:
 
 Simply clone the repository and follow these steps
   - Wire up the sensors and board as shown in the picture. 
-  - Flash the code onto the board - you'll probably
+  - Flash the firmware onto the board and copy all scripts contained in the repo onto micropython's filesystem.
+  - Use jupyter notebooks to connect to the esp32's serial port (included jupyter notebook for guidance)
+  - Test to see if your board can see the atecc608a on its i2c bus. If yes, move on to the next steps
+  - Make sure your board is connected to a local wifi-hotspot before you start.
+  - Run the gcpIoTCoreAuth_example script. 
+  - Assuming everything's tied up right, you should now be able to test **telemetry data** showing in your GCP account. You could also look at the logs for mqtt messages. You should be able to see something like this.
