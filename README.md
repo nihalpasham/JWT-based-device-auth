@@ -1,4 +1,4 @@
-# Commoditizing security for 'all connected-devices' -***especially low-cost connected-anything kind***
+# Commoditizing security for 'all connected-devices' -###***especially low-cost connected-anything kind***
 
 **Context** - Evaluate how you could **vastly** improve security in any IoT project with 0.50$. 
 
