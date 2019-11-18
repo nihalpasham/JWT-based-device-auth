@@ -1,4 +1,4 @@
-# Commoditizing security for 'all connected-devices' - no matter the device.
+# Commoditizing security for 'all connected-devices' - especially low-cost connected-anything.
 
 **Context** - Evaluate how you could **vastly** improve security in any IoT project with 0.50$. 
 
@@ -45,7 +45,7 @@ That brings us to the topic of this repo. The atecc608a crypto-processor. This r
 # Demo: Secure device authentication with Google IoT Core (Esp32 + micropython + atecc608a)
   1. Step 1 starts with personlization of your crypto element i.e. the atecc608a needs to be configured for your needs. (Note -There's a whole bunch of things the chip can do for you. This is where the 'expertise' comes in but that's beyond the scope of this little demo). 
   2. For our demo - all you need to do is generate and store an (ECC) private key onboard the cryptochip. Although, the datasheet for atecc608a isn't available (its under NDA). You could still use its predecessor's datasheet (atecc508a) to do this. - http://ww1.microchip.com/downloads/en/DeviceDoc/20005927A.pdf
-  3. Once you've configured your crypto-chip. It should ideally be permanently locked down i.e. no one can not even you can access the private-keys or sensitive data directly. **You do this wrong and you end up 0.50$ short.**
+  3. Once you've configured your crypto-chip. It should ideally be permanently locked down i.e. no-one can, not even you can access the private-keys or sensitive data directly. **You do this wrong and you end up 0.50$ short.**
   4. Set up Google IoT Core on your GCP account with a registry, add a device to it. Refer to Google IoT Core's getting started guide for this. 
   4. Retrieve the associated public-key from the chip and upload a PEM formatted version of it to your Google cloud account. Use the pubkey_format.py script to do this. Google has a nice little guide for how to upload and tie your key to an device - https://cloud.google.com/iot/docs/how-tos/devices
   5. From hereon - just follows usage steps. 
@@ -58,6 +58,6 @@ Simply clone the repository and follow these steps
   - Use jupyter notebooks to connect to the esp32's serial port (included jupyter notebook for guidance)
   - Test to see if your board can see the atecc608a on its i2c bus. If yes, move on to the next steps
   - Make sure your board is connected to a local wifi-hotspot before you start.
-  - Run the gcpIoTCore_auth_example.py script to generate a signed token and authenticate with google IoT Core and publish some telemetry data. 
+  - Run the gcpIoTCore_auth_example.py script to generate a signed token and authenticate with google IoT Core and publish some telemetry data. If all goes well, you should see a blue led flashing on your esp32.
   - Assuming everything's tied up right, you should now be able to see test **telemetry data** showing up in your GCP account. 
-  - You could also look at the logs for **mqtt messages**. You should be able to see something like this.
+  - You could also look at the logs for **mqtt messages**. Should see something like this.
