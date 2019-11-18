@@ -29,9 +29,9 @@ Turns out this is a non-trivial affair, requiring a solution that addresses seve
  
 **In short with the right expertise, crypto-processors can be a cheap, flexible, highly secure and proven piece of technology - i.e. a commodity that accelerate dev timescales and remove complexity no matter the device.**
 
-# Crypto-processing: **with that context lets get down to the reason this repo exists**
+# Crypto-processing: **lets get down to the reason this repo exists**
 
-![The tiny but versatile atecc608a cryptoauthentication device from microchip](https://github.com/nihalpasham/micropython_w_atecc608a_googleIotCoreAuth/blob/master/atecc608a_pic_LI.jpg)
+![The tiny but versatile atecc608a cryptoauthentication device from microchip](https://github.com/nihalpasham/micropython_w_atecc608a_googleIotCoreAuth/blob/master/atecc608a_pic_LI%20(2).jpg)
 
 That brings us to the topic of this repo. The atecc608a crypto-processor. This repo will help demo a typical IoT security use-case like secure device authentication to show that price, agility, complexity are not the problems: 
   - Esp32 uses espressif's xtensa micro-architecture (not ARM or intel)
