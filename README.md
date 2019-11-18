@@ -89,7 +89,7 @@ Simply clone the repository and follow these steps
   - Make sure your board is connected to a local wifi-hotspot before you start.
   - Run the gcpIoTCore_auth_example.py script to generate a signed token and authenticate with google IoT Core and publish some telemetry data. If all goes well, you should see a blue led flashing on your esp32.
   
-   ![Flashing blue led on the esp32.](https://youtu.be/VYf0L76V8uE) 
+   [![Flashing blue led on the esp32.](https://img.youtube.com/vi/VYf0L76V8uE/maxresdefault.jpg)](https://youtu.be/VYf0L76V8uE) 
   
   - Assuming everything's tied up right, you should now be able to see test **telemetry data** showing up in your GCP account. 
   
