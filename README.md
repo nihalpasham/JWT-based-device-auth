@@ -1,5 +1,5 @@
 # Commoditizing security for 'all connected-devices':
-###***especially low-cost connected-anything kind***
+##***especially low-cost connected-anything kind***
 
 **Context** - Evaluate how you could **vastly** improve security in any IoT project with 0.50$. 
 
@@ -30,7 +30,8 @@ Turns out this is a non-trivial affair, requiring a solution that addresses seve
  
 **In short with the right expertise, crypto-processors can be a cheap, flexible, highly secure and proven piece of technology - i.e. a commodity that accelerate dev timescales and remove complexity no matter the device.**
 
-# Crypto-processing: ***lets get down to the reason this repo exists***
+# Crypto-processing: 
+##***lets get down to the reason this repo exists***
 
 ![The tiny but versatile atecc608a cryptoauthentication device from microchip](https://github.com/nihalpasham/micropython_w_atecc608a_googleIotCoreAuth/blob/master/atecc608a_pic_LI%20(2).jpg)
 
@@ -62,7 +63,7 @@ That brings us to the topic of this repo. The atecc608a crypto-processor. This r
 Simply clone the repository and follow these steps
   - Wire up the sensors and board as shown in the picture. I'm have a fancy expansion board (from microchip) for my atecc608a but you can get a basic breakout board (adafruit has one) with a single i2c interface.
   - Flash the firmware onto the board and copy all scripts contained in the repo onto micropython's filesystem.
-  - Use jupyter notebooks to connect to the esp32's serial port (included jupyter notebook for guidance)
+  - Use jupyter notebooks to connect to the esp32's serial port (`included jupyter notebook` for guidance)
   - Test to see if your board can see the atecc608a on its i2c bus. If yes, move on to the next steps
   ```python
   
