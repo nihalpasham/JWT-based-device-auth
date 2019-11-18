@@ -1,4 +1,4 @@
-# Commoditizing security for 'all connected-devices' - especially low-cost connected-anything.
+# Commoditizing security for 'all connected-devices' -***especially low-cost connected-anything kind***
 
 **Context** - Evaluate how you could **vastly** improve security in any IoT project with 0.50$. 
 
@@ -20,7 +20,7 @@ Turns out this is a non-trivial affair, requiring a solution that addresses seve
   - **Complex ecosystem**: With a myriad number of **silicon + firmware vendors, micro-architectures, security technologies, open source offerings, cloud platforms, and a heterogenous supply-chain** comprising OEMs, contract manufacturers etc, this problem can easily get compounded, making it increasingly difficult to **secure** a mix of devices.
 
 # The way forward: a usable answer
-'Expertise' is what you need to clearly understand the nitty gritties of addressing the above issue-categories but in general, all other classes of issues are attributable to a much tinier knowledge-gap i.e. an understanding of available security options - cryptoprocessors - you can call them TPMs, secure elements, emv chips or custom ones like apple's T2 chip that you cant buy etc. To elaborate  
+'Expertise' is what you need to clearly understand the nitty gritties of addressing the above issue-categories but in general, all other classes of issues are attributable to a much simpler knowledge-gap i.e. an understanding of usable device-security options like cryptoprocessors - you can call them **TPMs, secure elements, emv chips or custom ones like apple's T2 chip** that you cant buy etc. To elaborate  
 
  - **Price:** Secure crypto processors/chips/accelerators are cheap (cost just a few cents) and most come with certifiable protection for key-storage and crypto-processing capabilities. 
  - **Agility:** Crypto-chips are available in a variety of configurations, from add-ons or isolated external modules to fully integrated secure crytpo co-processors boards. So, it doesn’t matter if it’s a greenfield or brownfield project, you can still have the best of security. 
@@ -29,7 +29,7 @@ Turns out this is a non-trivial affair, requiring a solution that addresses seve
  
 **In short with the right expertise, crypto-processors can be a cheap, flexible, highly secure and proven piece of technology - i.e. a commodity that accelerate dev timescales and remove complexity no matter the device.**
 
-# Crypto-processing: **lets get down to the reason this repo exists**
+# Crypto-processing: ***lets get down to the reason this repo exists***
 
 ![The tiny but versatile atecc608a cryptoauthentication device from microchip](https://github.com/nihalpasham/micropython_w_atecc608a_googleIotCoreAuth/blob/master/atecc608a_pic_LI%20(2).jpg)
 
