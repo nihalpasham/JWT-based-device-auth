@@ -29,6 +29,10 @@ Turns out this is a non-trivial affair, requiring a solution that addresses seve
  
 **In short with the right expertise, crypto-processors can be a cheap, flexible, highly secure and proven piece of technology - i.e. a commodity that accelerate dev timescales and remove complexity no matter the device.**
 
+# Crypto-processing: **with that context lets get down to the reason this repo exists**
+
+![The tiny but versatile atecc608a cryptoauthentication device from microchip](https://github.com/nihalpasham/micropython_w_atecc608a_googleIotCoreAuth/blob/master/atecc608a_pic_LI.jpg)
+
 That brings us to the topic of this repo. The atecc608a crypto-processor. This repo will help demo a typical IoT security use-case like secure device authentication to show that price, agility, complexity are not the problems: 
   - Esp32 uses espressif's xtensa micro-architecture (not ARM or intel)
   - micropython firmware is pure python for microcontrollers
@@ -84,3 +88,7 @@ Simply clone the repository and follow these steps
   - Run the gcpIoTCore_auth_example.py script to generate a signed token and authenticate with google IoT Core and publish some telemetry data. If all goes well, you should see a blue led flashing on your esp32.
   - Assuming everything's tied up right, you should now be able to see test **telemetry data** showing up in your GCP account. 
   - You could also look at the logs for **mqtt messages**. Should see something like this.
+  
+  ![MQTT logs from GCP](https://github.com/nihalpasham/micropython_w_atecc608a_googleIotCoreAuth/blob/master/google_cloud_mqtt_logs_LI.jpg)
+
+
