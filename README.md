@@ -21,12 +21,12 @@ Turns out this is a non-trivial affair, requiring a solution that addresses seve
   - **Complex ecosystem**: With a myriad number of **silicon + firmware vendors, micro-architectures, security technologies, open source offerings, cloud platforms, and a heterogenous supply-chain** comprising OEMs, contract manufacturers etc, this problem can easily get compounded, making it increasingly difficult to **secure** a mix of devices.
 
 # The way forward: a usable answer
-'Expertise' is what you need to clearly understand the nitty gritties of addressing the above issue-categories but in general, all other classes of issues are attributable to a much simpler knowledge-gap i.e. an understanding of usable device-security options like cryptoprocessors - you can call them **TPMs, secure elements, emv chips or custom ones like apple's T2 chip** that you cant buy etc. To elaborate  
+'Expertise' is what you need to clearly understand the nitty gritties of addressing the above issue-categories but in general, all other classes of issues are attributable to a much simpler knowledge-gap i.e. a lack of understanding of solid, usable device-security options like cryptoprocessors - you can call them **TPMs, secure elements, emv chips or custom ones like apple's T2 chip** that you cant buy etc. To elaborate  
 
  - **Price:** Secure crypto processors/chips/accelerators are cheap (cost just a few cents) and most come with certifiable protection for key-storage and crypto-processing capabilities. 
  - **Agility:** Crypto-chips are available in a variety of configurations, from add-ons or isolated external modules to fully integrated secure crytpo co-processors boards. So, it doesn’t matter if it’s a greenfield or brownfield project, you can still have the best of security. 
- - **Good enough security:** No need to make anymore assumptions here -just use the right features for the requirement. Any crypto processor worth the its name addresses most (or all) of basic security use-cases. **Although you still need an expert to do this not throw overloaded app developers at it.**
- - **Complexity:** Most commercially available crypto-chips are independent modules with no micro-architectural or hardware specific dependencies. They are pretty much MCU or MPU agnostic. All you need is a serial interface (largely) to get started. Supply-chain risks can be plugged as you can now handover pre-provisioned crypto-elements to anyone without the worrying about compromise/leakage.
+ - **Good enough security:** No need to make anymore assumptions -just use the right features for the requirement. Any crypto processor worth the its tech addresses most (or all) of basic security use-cases. **Although you still need an expert to do this not throw overloaded app developers at it.**
+ - **Complexity:** Most commercially available crypto-chips are independent modules with no micro-architectural or hardware specific dependencies. They are pretty much **MCU or MPU agnostic.** All you need is a serial interface (largely) to get started. Supply-chain risks can be plugged as you can now handover pre-provisioned crypto-elements to anyone without the worrying about compromise/leakage.
  
 **In short with the right expertise, crypto-processors can be a cheap, flexible, highly secure and proven piece of technology - i.e. a commodity that accelerate dev timescales and remove complexity no matter the device.**
 
@@ -46,7 +46,7 @@ That brings us to the topic of this repo. The atecc608a crypto-processor. This r
   - A Jupyter Notebook for flashing and debugging your code via the repl
   - The ATECC608A Crypto Authentication device (from microchip) to generate and store a (ECC) private key (which **never leaves** the cryptochip)
   - A micropython module (i.e. driver) for the ATECC608A Crypto Authentication device - https://github.com/dmazzella/ucryptoauthlib
-  - **You'll also need the EspressIf binary toolchain and SDK to build micropython firmware (esp32 port) i.e. some micropython modules (atecc608a driver, mqtt) will need to be frozen into the firmware else you'll run into out of memory issues.** 
+  - **You'll also need the Espressif binary toolchain and SDK to build micropython firmware (esp32 port) i.e. some micropython modules (atecc608a driver, mqtt) will need to be frozen into the firmware else you'll run into out of memory issues.** 
   
 # Demo: Secure device authentication with Google IoT Core (Esp32 + micropython + atecc608a)
   1. Step 1 starts with personlization of your crypto element i.e. the atecc608a needs to be configured for your needs. (Note -There's a whole bunch of things the chip can do for you. This is where the 'expertise' comes in but that's beyond the scope of this little demo). 
@@ -93,4 +93,9 @@ Simply clone the repository and follow these steps
   
   ![MQTT logs from GCP](https://github.com/nihalpasham/micropython_w_atecc608a_googleIotCoreAuth/blob/master/google_cloud_mqtt_logs_LI.jpg)
 
+# Notes:
 
+  - Having made dedicated HW based crypto-processing sound like the next best thing to sliced bread, let me just say that there is no such thing. You still need defense in depth and the expertise to get all of this right! i.e. it's a good starting point  
+  - For example - most crypto-chips dont offer much in the way of 'runtime code isolation' security (not that you need it in most low-powered connected IoT projects) but if that's something on your list of security needs, you should probably look at other options like Cortex-M trustzone etc.  
+
+### Footnote: Sales pitch part, skippable if you want to save 30 secs of your life -if you're looking to solve any of the above use-cases or grappling with similar security requirements (like TPMs, Cortez-M Trustzone), please feel free to get in touch or drop a tweet at @npashi. 
