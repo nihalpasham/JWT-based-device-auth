@@ -1,45 +1,40 @@
-# Commoditizing security for 'all connected-devices':
+# Commoditizing security for 'all connected-devices' with 0.50$
 ##***especially the low-cost connected-anything kind***
 
-**Context** - Evaluate how you could **vastly** improve security in any IoT project with 0.50$. 
+**The goal- Evaluate how one could vastly improve security in any IoT project with just 0.50$.** 
 
 When you think about embedded-device security, pretty much most if not all requirements (i.e. use-cases) depend on some kind of crypto. Ex:
-  1. You need a **unique** device identity to securely - **'authenticate your device'**
-  2. You need to make sure the code on your device is what you expect it to be - **'firmware validation aka secure boot'**
-  3. You need to know that people can't make (illegitimate) copies of your devices - **'anti-cloning or counterfeit protection'**
-  4. You don't want someone stealing your IP (when in the field or the supply-chain) - **'IP protection'**
-  5. You want a secure way to distribute updates or communicate with a cloud backend - **'secure FOTA or connectivity'**
+- You need a unique device identity to securely - 'authenticate your device'
+- You need to make sure the code on your device is what you expect it to be - 'firmware validation aka secure boot'
+- You need to know that people can't make (illegitimate) copies of your devices - 'anti-cloning or counterfeit protection'
+- You don't want someone stealing your IP (when in the field or the supply-chain) - 'IP protection'
+- You want a secure way to distribute updates or communicate with a cloud backend - 'secure FOTA or connectivity'
 
 # The problem:
-  - All of the above ultimately depends on the secrecy/safety of a **cryptographic root of trust** (i.e. a private key + crypto constructs/algorithms). Ok great, so all you have to do is protect your keys and use standards-based crypto - how hard can that be? -right
+All of the above ultimately depends on the secrecy/safety of a **cryptographic root of trust** (i.e. a private key + crypto constructs/algorithms). Ok, so all you have to do is protect your keys and use standards-based crypto - how hard can that be? -right
 
-Turns out this is a non-trivial affair, requiring a solution that addresses several categories of issues such as
-  - **Expertise**: Crypto based **device-security** is hard 
-  - **Price**: I've a **5$ connected thing** and an HSM to secure it is **more work and money** than I'm willing to put in for the ROI
-  - **Agility**: It adds significantly to my dev timeframe and I need to be the first to market. 
-  - **Good enough security**: The concept of **good enough security** - leading to things like key/certs being stored in SW (in the clear), a compromised chain of trust, an unsecured debug port or a custom SW crypto implementations susceptible to side-channel attacks.
-  - **Complex ecosystem**: With a myriad number of **silicon + firmware vendors, micro-architectures, security technologies, open source offerings, cloud platforms, and a heterogenous supply-chain** comprising OEMs, contract manufacturers etc, this problem can easily get compounded, making it increasingly difficult to **secure** a mix of devices.
+Turns out this is a non-trivial affair, requiring solutions that can address several categories of issues such as
+Expertise: Crypto based device-security is hard
+- **Price:** I've a 5$ connected thing and an HSM to secure it is more work and money than I'm willing to put in for the ROI
+- **Agility:** It adds significantly to my dev timeframe and I need to be the first to market.
+- **Good enough security:** The concept of good enough security - leads to things like key/certs being stored in SW (in the clear), a compromised chain of trust, an unsecured debug port or a custom SW crypto implementations susceptible to side-channel attacks.
+- **Complex ecosystem:** Lastly, with a myriad number of silicon + firmware vendors, micro-architectures, security technologies, open source offerings, cloud platforms, and a heterogenous supply-chain comprising OEMs, contract manufacturers etc., this problem can easily get compounded, making it increasingly difficult to secure a mix of devices.
 
-# The way forward: a usable answer
-'Expertise' is what you need to clearly understand the nitty gritties of addressing the above issue-categories but in general, all other classes of issues are attributable to a much simpler knowledge-gap i.e. a lack of understanding of solid, usable device-security options like cryptoprocessors - call them **TPMs, secure elements, emv chips or custom ones like apple's T2 chip** that you cant buy etc., eseentially **a hardware root of trust**. To elaborate on how they drastically change your security exposure - consider this  
+# A usable answer:
+'Expertise' is what you need to clearly understand the nitty-gritties of addressing the above issue-categories but in general, all the other issues are attributable to a much simpler knowledge-gap i.e. a lack of awareness when it comes to readily available and usable security options like crypto-processors - i.e. TPMs, secure elements, EMV chips or custom ones like apple's T2 chip, in other words a hardware root of trust. To elaborate on how they can drastically change your security exposure - consider this
+- **Price:** Secure crypto processors/chips/accelerators are cheap (cost just a few cents) and most come with certifiable protection for key-storage and crypto-processing capabilities.
+- **Agility:** Crypto-chips are available in a variety of configurations, from add-ons or isolated external modules to fully integrated secure crypto co-processors boards. So, it doesn't matter if it's a greenfield or brownfield project, you can still have the best of security.
+- **Good enough security:** No need to make anymore assumptions -just use the right features for the requirement. Any crypto processor worth the its name addresses most (or all) of basic security use-cases. Although you still need an expert to do this and not throw overloaded app developers at it.
+- **Complexity:** Most commercially available crypto-chips are standalone modules with no micro-architectural or hardware-specific dependencies. i.e. they are pretty much MCU or MPU agnostic, requiring nothing more than a serial interface to get started. Supply-chain risks can be plugged as you can now handover pre-provisioned crypto-elements to anyone without worrying about compromise/leakage.
 
- - **Price:** Secure crypto processors/chips/accelerators are cheap (cost just a few cents) and most come with **certifiable protection** for key-storage and crypto-processing capabilities. 
- - **Agility:** Crypto-chips are available in a variety of configurations, from add-ons or isolated external modules to fully integrated secure crytpo co-processors boards. So, it doesn’t matter if it’s a **greenfield or brownfield project**, you can still have the best of security. 
- - **Good enough security:** No need to make anymore assumptions -just use the right features for the requirement. Any crypto processor worth the its tech addresses most (or all) of basic security use-cases. ***Although you still need an expert to do this not throw overloaded app developers at it.***
- - **Complexity:** Most commercially available crypto-chips are independent modules with no micro-architectural or hardware specific dependencies. They are pretty much **MCU or MPU agnostic.** All you need is a serial interface (largely) to get started. **Supply-chain risks can be plugged** as you can now handover pre-provisioned crypto-elements to anyone without the worrying about compromise/leakage.
- 
-**In short with the right expertise, crypto-processors can be a cheap, flexible, highly secure and proven piece of technology - i.e. a commodity that accelerate dev timescales and remove complexity no matter the device.**
+**In short with the right expertise, crypto-processors can be a cheap, flexible, highly secure and proven piece of technology - i.e. a commodity that can accelerate security related development timescales and remove complexity -even for cheapest of devices.**
 
 # Crypto-processing: 
 ##***lets get down to the reason this repo exists***
 
 ![The tiny but versatile atecc608a cryptoauthentication device from microchip](https://github.com/nihalpasham/micropython_w_atecc608a_googleIotCoreAuth/blob/master/atecc608a_pic_LI%20(2).jpg)
 
-That brings us to the topic of this repo. The atecc608a crypto-processor. This repo will help demo a typical IoT security use-case like secure device authentication to show that price, agility, complexity are not the problems: 
-  - Esp32 uses espressif's xtensa micro-architecture (not ARM or intel)
-  - micropython firmware is pure python for microcontrollers
-  - atecc608a - i2c enabled crypto-processor with a common criteria - JIL high rating 
-  - Google cloud - authenticating with google's IoT Core using jwt standard (can easily be extended to TLS mutual auth or other forms of custom auth options supported by iot cloud providers like aws, azure etc.)
+That brings us to the topic of this repo. The atecc608a crypto-processor. This repo will help demo a typical IoT security use-case like secure device authentication to show that price, agility, complexity are non-problems: In simple terms, I wanted to connect my esp32 to the Google's IoT Core using a certified crypto-element as my key-store and digital signature provider.
 
 # The set-up:
   - An ESP32 board running micropython
@@ -49,7 +44,7 @@ That brings us to the topic of this repo. The atecc608a crypto-processor. This r
   - **You'll also need the Espressif binary toolchain and SDK to build micropython firmware (esp32 port) i.e. some micropython modules (atecc608a driver, mqtt) will need to be frozen into the firmware else you'll run into out of memory issues.** 
   
 # Demo: Secure device authentication with Google IoT Core (Esp32 + micropython + atecc608a)
-  1. Step 1 starts with personlization of your crypto element i.e. the atecc608a needs to be configured for your needs. (Note -There's a whole bunch of things the chip can do for you. This is where the 'expertise' comes in but that's beyond the scope of this little demo). 
+  1. The first step starts with the personlization of your crypto element i.e. the atecc608a needs to be configured for your needs. (Note -There's a whole bunch of things the chip can do for you. This is where the 'expertise' comes in but that's beyond the scope of this little demo). 
   2. For our demo - all you need to do is generate and store an (ECC) private key onboard the cryptochip. Although, the datasheet for atecc608a isn't available (its under NDA). You could still use its predecessor's datasheet (atecc508a) to do this. - http://ww1.microchip.com/downloads/en/DeviceDoc/20005927A.pdf
   3. Once you've configured your crypto-chip. It should ideally be permanently locked down i.e. no-one can, not even you can access the private-keys or sensitive data directly. **You do this wrong and you end up 0.50$ short.**
   4. Set up Google IoT Core on your GCP account with a registry, add a device to it. Refer to Google IoT Core's getting started guide for this. 
@@ -104,4 +99,4 @@ Simply clone the repository and follow these steps
   - Having made dedicated HW based crypto-processing sound like the next best thing to sliced bread, let me just say that there is no such thing. You still need defense in depth and the expertise to get all of this right but nonetheless this is a pretty good starting point. 
   - For example - most crypto-chips dont offer much in the way of 'runtime code isolation' security (not that you need it in most low-powered connected IoT projects) but if that's something on your list of security needs, you should probably look at other options like Cortex-M trustzone etc.  
 
-### Footnote: Sales pitch part, skippable if you want to save 30 secs of your life but if you're looking to solve any of the above use-cases or grappling with similar security requirements (like TPMs, Cortez-M Trustzone), please feel free to get in touch or drop a tweet at @npashi. 
+##### Footnote: Sales pitch part, skippable if you want to save 30 secs of your life but if you're looking to solve any of the above use-cases or grappling with similar security requirements (like TPMs, Cortez-M Trustzone), please feel free to get in touch or drop a tweet at @npashi. 
