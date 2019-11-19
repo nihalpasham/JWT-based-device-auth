@@ -34,7 +34,7 @@ Turns out this is a non-trivial affair, requiring solutions that can address sev
 
 ![The tiny but versatile atecc608a cryptoauthentication device from microchip](https://github.com/nihalpasham/micropython_w_atecc608a_googleIotCoreAuth/blob/master/atecc608a_pic_LI%20(2).jpg)
 
-That brings us to the topic of this repo. The atecc608a crypto-processor. This repo will help demo a typical IoT security use-case like secure device authentication to show that price, agility, complexity are non-problems: **In simple terms, I wanted to connect my esp32 to the Google's IoT Core using a certified crypto-element as my key-store and digital signature provider.**
+This repo will help demonstrate a typical IoT security use-case like secure device authentication to show that price, agility, complexity are non-problems: **This demo will show how we can connect an esp32 to the Google's IoT Core using a certified crypto-element as the key-store and digital signature provider.**
 
 # The set-up:
   - An ESP32 board running micropython
