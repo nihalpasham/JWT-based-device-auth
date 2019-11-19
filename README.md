@@ -14,7 +14,7 @@ When you think about embedded-device security, pretty much most if not all requi
 All of the above ultimately depends on the secrecy/safety of a **cryptographic root of trust** (i.e. a private key + crypto constructs/algorithms). Ok, so all you have to do is protect your keys and use standards-based crypto - how hard can that be? -right
 
 Turns out this is a non-trivial affair, requiring solutions that can address several categories of issues such as
-Expertise: Crypto based device-security is hard
+- **Expertise:** Crypto based device-security is hard
 - **Price:** I've a 5$ connected thing and an HSM to secure it is more work and money than I'm willing to put in for the ROI
 - **Agility:** It adds significantly to my dev timeframe and I need to be the first to market.
 - **Good enough security:** The concept of good enough security - leads to things like key/certs being stored in SW (in the clear), a compromised chain of trust, an unsecured debug port or a custom SW crypto implementations susceptible to side-channel attacks.
@@ -34,7 +34,7 @@ Expertise: Crypto based device-security is hard
 
 ![The tiny but versatile atecc608a cryptoauthentication device from microchip](https://github.com/nihalpasham/micropython_w_atecc608a_googleIotCoreAuth/blob/master/atecc608a_pic_LI%20(2).jpg)
 
-That brings us to the topic of this repo. The atecc608a crypto-processor. This repo will help demo a typical IoT security use-case like secure device authentication to show that price, agility, complexity are non-problems: In simple terms, I wanted to connect my esp32 to the Google's IoT Core using a certified crypto-element as my key-store and digital signature provider.
+That brings us to the topic of this repo. The atecc608a crypto-processor. This repo will help demo a typical IoT security use-case like secure device authentication to show that price, agility, complexity are non-problems: **In simple terms, I wanted to connect my esp32 to the Google's IoT Core using a certified crypto-element as my key-store and digital signature provider.**
 
 # The set-up:
   - An ESP32 board running micropython
