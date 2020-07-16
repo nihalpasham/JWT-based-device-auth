@@ -26,7 +26,7 @@ Here's how it works:
 
 ![Device Auth Workflow with Google IoT Core](https://www.digikey.com/-/media/Images/Article%20Library/TechZone%20Articles/2019/January/An%20Easier%20Solution%20for%20Securely%20Connecting%20IoT%20Devices%20to%20the%20Cloud/article-2019january-an-easier-solution-fig3_fullsize.jpg?la=en&ts=8b232885-9269-4021-87cf-3e83c5409c48)
 
-We've put together a PoC showcase. What's interesting is that this solution is completely agnostic to the type of 'Host MCU' and 'firmware' (OS or bare metal) running on it. Note - this is just a PoC (not intended for production use).
+We've put together a PoC showcase. What's interesting is that this solution is **completely agnostic to the type of 'Host MCU' and 'firmware' (OS or bare metal)** running on it. Note - this is just a PoC (not intended for production use).
 
 ![The tiny but versatile atecc608a cryptoauthentication device from microchip](https://github.com/nihalpasham/micropython_w_atecc608a_googleIotCoreAuth/blob/master/atecc608a_pic_LI%20(2).jpg)
 
