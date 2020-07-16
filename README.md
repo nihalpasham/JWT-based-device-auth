@@ -1,40 +1,34 @@
-# Commoditizing security for 'all connected-devices' with 0.50$
-##***especially the low-cost connected-anything kind***
+# Strong device authentication for 'all connected-devices' (at 0.50$)
 
-**The goal- Evaluate how one could vastly improve security in any IoT project with just 0.50$.** 
+**The goal- Evaluate JWT based authentication schemes fo IoT projects.** 
 
-When you think about embedded-device security, pretty much most if not all requirements (i.e. use-cases) depend on some kind of crypto. Ex:
-- You need a unique device identity to securely - 'authenticate your device'
-- You need to make sure the code on your device is what you expect it to be - 'firmware validation aka secure boot'
-- You need to know that people can't make (illegitimate) copies of your devices - 'anti-cloning or counterfeit protection'
-- You don't want someone stealing your IP (when in the field or the supply-chain) - 'IP protection'
-- You want a secure way to distribute updates or communicate with a cloud backend - 'secure FOTA or connectivity'
+A typical IoT use-case - 'Securely' connect an IoT node (such as an ESP32, nRF, Rpi etc.) to the Cloud. Well, at first glance one might think, it's a fairly simple ask but in practice that couldn't be further from the truth.
 
-# The problem:
-All of the above ultimately depends on the secrecy/safety of a **cryptographic root of trust** (i.e. a private key + crypto constructs/algorithms). Ok, so all you have to do is protect your keys and use standards-based crypto - how hard can that be? -right
+If the plan is to simply connect a device, that's easy. The tricky part is securing that connection. The cost of securing a connected-device as well as the complexity to implement and maintain a high level of security can be a huge undertaking, especially when the vast majority of the internet relies on 'PKI technology' standards to establish trust, identity and confidentiality over the internet.
 
-Turns out this is a non-trivial affair, requiring solutions that can address several categories of issues such as
-- **Expertise:** Crypto based device-security is hard
-- **Price:** I've a 5$ connected thing and an HSM to secure it is more work and money than I'm willing to put in for the ROI
-- **Agility:** It adds significantly to my dev timeframe and I need to be the first to market.
-- **Good enough security:** The concept of good enough security - leads to things like key/certs being stored in SW (in the clear), a compromised chain of trust, an unsecured debug port or a custom SW crypto implementations susceptible to side-channel attacks.
-- **Complex ecosystem:** Lastly, with a myriad number of silicon + firmware vendors, micro-architectures, security technologies, open source offerings, cloud platforms, and a heterogenous supply-chain comprising OEMs, contract manufacturers etc., this problem can easily get compounded, making it increasingly difficult to secure a mix of devices.
+    For starters, we'll need to generate cryptographic keys to provision digital certificates and a Certificate Authority to sign those certificates (which in itself needs to be protected with the highest level of care.)
 
-# A usable answer:
-'Expertise' is what you need to clearly understand the nitty-gritties of addressing the above issue-categories but in general, all the other issues are attributable to a much simpler knowledge-gap i.e. a lack of awareness when it comes to readily available and usable security options like crypto-processors - i.e. TPMs, secure elements, EMV chips or custom ones like apple's T2 chip, in other words a hardware root of trust. To elaborate on how they can drastically change your security exposure - consider this
-- **Price:** Secure crypto processors/chips/accelerators are cheap (cost just a few cents) and most come with certifiable protection for key-storage and crypto-processing capabilities.
-- **Agility:** Crypto-chips are available in a variety of configurations, from add-ons or isolated external modules to fully integrated secure crypto co-processors boards. So, it doesn't matter if it's a greenfield or brownfield project, you can still have the best of security.
-- **Good enough security:** No need to make anymore assumptions -just use the right features for the requirement. Any crypto processor worth the its name addresses most (or all) of basic security use-cases. Although you still need an expert to do this and not throw overloaded app developers at it.
-- **Complexity:** Most commercially available crypto-chips are standalone modules with no micro-architectural or hardware-specific dependencies. i.e. they are pretty much MCU or MPU agnostic, requiring nothing more than a serial interface to get started. Supply-chain risks can be plugged as you can now handover pre-provisioned crypto-elements to anyone without worrying about compromise/leakage.
+    Next, the cost of burning keys/certificates into a device is a balance between dollar amounts (and finding an appropriate ODM), and the risk of credentials being compromised (copied) during manufacture. So, most of the time we end up storing them in firmware.
+    After you're done with the first two, you'll need to use something like mutual-TLS to fully secure the communication link, which means a bloated TLS stack on the device and a larger memory footprint than anticipated. These resource demands increase after you integrate Online Certificate Status Protocol (OCSP for the broker), which requires additional (memory-consuming) keys and (CPU-consuming) requests.
+    And let's say you managed to put together all of the above, cryptographic keys are extremely difficult, if not impossible to store securely in the firmware.
 
-**In short with the right expertise, crypto-processors can be a cheap, flexible, highly secure and proven piece of technology - i.e. a commodity that can accelerate security related development timescales and remove complexity -even for cheapest of devices.**
+For scenarios such as the above, there are other ways to establish trust, identity. What follows is a solution that can serve as a good alternative to the above 
 
-# Crypto-processing: 
-##***lets get down to the reason this repo exists***
+    Use a secure element: With Microchip's ATECC608a for example, the private key is generated by the secure element itself, not an external party (CA). The chip uses a random number generator to create the key, making it virtually impossible to derive. The private key never leaves the chip, ever. Using the private key, the chip will be able to generate a public key that can be signed by the chosen CA of the company.
+
+    Using a JWT for authentication: Using TLS is perfect for securing the communication between the device and the cloud, but the authentication stack is not ideal for IoT. The stack required for mutual authentication is large in size and has a downside: it needs to be aware of where the keys are stored. The TLS stack needs to know what secure element is used and how to communicate with it. An OpenSSL stack will assume the keys are stored in a file system and need to be modified to access the secure element. This requires development and testing that has to be done again at each update of the stack. With TLS 1.3 coming up, it is likely that this work will have to happen several times, which is a cost for the company. The company can use a TLS stack that is already compatible with the secure element, like WolfSSL, but there is a licensing cost involved that adds to the cost of the device. Google Cloud IoT is using a very common JWT (JSON Web Token) to authenticate the device instead of relying on the mutual authentication of a TLS stack.
+
+Here's how it works:
+
+    The device will establish a secure connection to the global cloud endpoint for Cloud IoT Core (mqtt.googleapis.com) using TLS, but instead of triggering the mutual authentication it will generate a very simple JWT, sign it with its private key and pass it as a password.
+    The ATECC608 offers a simple interface to sign the device JWT securely without ever exposing the private key.
+    The JWT is received by Google Cloud IoT, the public key for the device is retrieved and used to verify the JWT signature.
+    If valid, the mutual authentication is effectively established.
+    The JWT validation can be set by the customer but never exceeds 24 hours, making it very ephemeral.
+
+We've put together a PoC showcase. What's interesting is that this solution is completely agnostic to the type of 'Host MCU' and 'firmware' (OS or bare metal) running on it. Note - this is just a PoC (not intended for production use).
 
 ![The tiny but versatile atecc608a cryptoauthentication device from microchip](https://github.com/nihalpasham/micropython_w_atecc608a_googleIotCoreAuth/blob/master/atecc608a_pic_LI%20(2).jpg)
-
-This repo will help demonstrate a typical IoT security use-case like secure device authentication to show that price, agility, complexity are non-problems: **This demo will show how we can connect an esp32 to the Google's IoT Core using a certified crypto-element as the key-store and digital signature provider.**
 
 # The set-up:
   - An ESP32 board running micropython
@@ -43,13 +37,15 @@ This repo will help demonstrate a typical IoT security use-case like secure devi
   - A micropython module (i.e. driver) for the ATECC608A Crypto Authentication device - https://github.com/dmazzella/ucryptoauthlib
   - **You'll also need the Espressif binary toolchain and SDK to build micropython firmware (esp32 port) i.e. some micropython modules (atecc608a driver, mqtt) will need to be frozen into the firmware else you'll run into out of memory issues.** 
   
-# Demo: Secure device authentication with Google IoT Core (Esp32 + micropython + atecc608a)
-  1. The first step starts with the personlization of your crypto element i.e. the atecc608a needs to be configured for your needs. (Note -There's a whole bunch of things the chip can do for you. This is where the 'expertise' comes in but that's beyond the scope of this little demo). 
-  2. For our demo - all you need to do is generate and store an (ECC) private key onboard the cryptochip. Although, the datasheet for atecc608a isn't available (its under NDA). You could still use its predecessor's datasheet (atecc508a) to do this. - http://ww1.microchip.com/downloads/en/DeviceDoc/20005927A.pdf
-  3. Once you've configured your crypto-chip. It should ideally be permanently locked down i.e. no-one can, not even you can access the private-keys or sensitive data directly. **You do this wrong and you end up 0.50$ short.**
-  4. Set up Google IoT Core on your GCP account with a registry, add a device to it. Refer to Google IoT Core's getting started guide for this. 
-  4. Retrieve the associated public-key from the chip and upload a PEM formatted version of it to your Google cloud account. Use the pubkey_format.py script to do this. Google has a nice little guide for how to upload and tie your key to an device - https://cloud.google.com/iot/docs/how-tos/devices
-  5. From hereon - just follows usage steps. 
+
+Demo: Secure device authentication with Google IoT Core (ESP32 + Micropython + ATECC608a)
+
+    The first step starts with personalizing the secure element i.e. the atecc608a needs to be configured for your needs. (Note -There's a whole bunch of things the chip can do for you. This is where the 'expertise' comes in but that's beyond the scope of this little demo).
+    For our demo - all you need to do is generate and store an (ECC) private key onboard the cryptochip. Although, the datasheet for atecc608a isn't available (its under NDA). You could still use its predecessor's datasheet (atecc508a) to do this. - http://ww1.microchip.com/downloads/en/DeviceDoc/20005927A.pdf
+    Once you've configured your crypto-chip. It should ideally be permanently locked down i.e. no-one can, not even you can access the private-keys or sensitive data directly. You do this wrong and you end up 0.50$ short.
+    Set up Google IoT Core on your GCP account with a registry, add a device to it. Refer to Google IoT Core's getting started guide for this.
+    Retrieve the associated public-key from the chip and upload a PEM formatted version of it to your Google cloud account. Use the pubkey_format.py script to do this. Google has a nice little guide for how to upload and tie your key to an device - https://cloud.google.com/iot/docs/how-tos/devices
+    From hereon - just follows usage steps.
  
 # Usage:
 
